@@ -1,18 +1,20 @@
 import React, { FormEvent, useState } from "react";
 
-import { Input } from "../ui/input/input";
 import { SolutionLayout } from "../ui/solution-layout/solution-layout";
+import { Input } from "../ui/input/input";
 import { Button } from "../ui/button/button";
 import { Circle } from "../ui/circle/circle";
 
 import { ElementStates } from "../../types/element-states";
 
 import { useEventsSort } from "./string-sort-hook";
-import { delay, selectionSort } from "./string-utils";
+import { selectionSort } from "./string-utils";
 
 import styles from './string.module.css';
+import { DELAY_IN_MS } from "../../constants/delays";
+import { delay } from "../../utils";
 
-const DELAY = 500;
+const DELAY = DELAY_IN_MS;
 
 export const StringComponent: React.FC = () => {
 

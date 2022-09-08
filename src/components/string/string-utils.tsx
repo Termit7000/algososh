@@ -1,6 +1,3 @@
-
-export const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
-
 export const selectionSort = async (
     arr: string[],
     handleCurrents: (indexes: number[]) => Promise<void>,
