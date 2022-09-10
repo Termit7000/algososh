@@ -57,8 +57,19 @@ export const StringComponent: React.FC = () => {
       <div className={styles.container}>
 
         <form className={styles.form} onSubmit={submitHandler}>
-          <Input disabled={isLoader} value={inputValue} onChange={changeHandler} isLimitText={true} maxLength={11} extraClass={styles.input} placeholder="Введите текст" />
-          <Button isLoader={isLoader} extraClass={styles.button} type="submit" text="Развернуть" />
+          <Input
+            disabled={isLoader}
+            value={inputValue}
+            onChange={changeHandler}
+            isLimitText={true}
+            maxLength={11}
+            extraClass={styles.input}
+            placeholder="Введите текст" />
+          <Button
+            isLoader={isLoader}
+            extraClass={styles.button}
+            type="submit"
+            text="Развернуть" />
         </form>
 
         {data.length > 0 &&
