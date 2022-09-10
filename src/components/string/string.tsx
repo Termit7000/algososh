@@ -7,8 +7,8 @@ import { Circle } from "../ui/circle/circle";
 
 import { ElementStates } from "../../types/element-states";
 
-import { useEventsSort } from "./string-sort-hook";
-import { selectionSort } from "./string-utils";
+import { useSelectionSort } from "../../hooks/sort-hook";
+import { selectionSort } from "../../utils";
 
 import styles from './string.module.css';
 import { DELAY_IN_MS } from "../../constants/delays";
@@ -27,7 +27,7 @@ export const StringComponent: React.FC = () => {
     isInCurrents,
     isInModified,
     setData,
-    data } = useEventsSort();
+    data } = useSelectionSort();
 
   const handleCurrent = async (indexes: number[]) => {
     await delay(DELAY);

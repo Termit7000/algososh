@@ -1,12 +1,12 @@
-import { useReducer } from "react";
+import React, { useReducer } from "react";
 
-type TState = {
+type TState<T = string> = {
     currentsElements: number[],
     modifiedElements: number[],
-    data: string[],
+    data: T[],
 }
 
-const initialState: TState = {
+const initialState = {
     currentsElements: [],
     modifiedElements: [],
     data: []
@@ -17,6 +17,7 @@ enum ActionTypes {
     ADD_MODIFIED = 'ADD_MODIFIED',
     SET_DATA = 'SET_DATA',
     RESET = 'RESET',
+    CLEAR_STATE = 'CLEAR_STATE'
 }
 
 type TSetCurrents = {
@@ -29,18 +30,22 @@ type TAddModified = {
     payload: number,
 }
 
-type TSetData = {
+type TSetData<T = string> = {
     type: ActionTypes.SET_DATA,
-    payload: string[]
+    payload: T[]
 }
 
 type TReset = {
     type: ActionTypes.RESET
 }
 
-type TActions = TSetCurrents | TAddModified | TSetData | TReset;
+type TClearState = {
+    type: ActionTypes.CLEAR_STATE
+}
 
-const reducer = (state: TState, action: TActions): TState => {
+type TActions<T> = TSetCurrents | TAddModified | TSetData<T> | TReset | TClearState;
+
+const reducer = <T=string>(state: TState<T>, action: TActions<T>): TState<T> => {
 
     switch (action.type) {
         case ActionTypes.SET_CURRENTS:
@@ -53,23 +58,27 @@ const reducer = (state: TState, action: TActions): TState => {
             return { ...state, data: action.payload };
 
         case ActionTypes.RESET:
-            return { ...initialState };
+            return {...initialState};
+        case ActionTypes.CLEAR_STATE:
+            return {...state, modifiedElements:[], currentsElements:[]}
 
         default: return state;
     }
 }
 
-export const useEventsSort = () => {
-    const [state, dispatch] = useReducer(reducer, initialState);
+export const useSelectionSort = <T = string>() => {
+    const [state, dispatch] = useReducer<React.Reducer<TState<T>, TActions<T>>>(reducer, initialState);
 
     return {
         setCurrents: (indexes: number[]) => dispatch({ type: ActionTypes.SET_CURRENTS, payload: indexes }),
         addModified: (index: number) => dispatch({ type: ActionTypes.ADD_MODIFIED, payload: index }),
-        setData: (arr: string[]) => {
+        setData: (arr: T[]) => {
             dispatch({ type: ActionTypes.RESET })
-            dispatch({ type: ActionTypes.SET_DATA, payload: arr })},
+            dispatch({ type: ActionTypes.SET_DATA, payload: arr })
+        },
         isInCurrents: (index: number) => state.currentsElements.includes(index),
-        isInModified: (index: number) => state.modifiedElements.includes(index),        
+        isInModified: (index: number) => state.modifiedElements.includes(index),
+        clearState: ()=>dispatch({type:ActionTypes.CLEAR_STATE}),
         data: state.data
     };
 }
