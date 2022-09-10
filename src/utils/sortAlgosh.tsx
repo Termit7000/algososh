@@ -1,13 +1,17 @@
-const ASC = 'ASC';
-const DESC = 'DESC';
+import { ASC, DESC, TSortKind } from "./types";
 
-type TSort = typeof ASC | typeof DESC;
-
+/**
+ * Сортировка выбором
+ * @param arr массив с элементами для сортировки
+ * @param handleCurrents функция обработки текущих элементов 
+ * @param handleModified функция обработки отсортированного элемента
+ * @param sortType вид сортировки
+ */
 export const selectionSort = async <T = string>(
     arr: T[],
     handleCurrents: (indexes: number[]) => Promise<void>,
     handleModified: (index: number) => Promise<void>,
-    sortType: TSort = ASC
+    sortType: TSortKind = ASC
 ) => {
 
     const { length } = arr;
@@ -26,11 +30,18 @@ export const selectionSort = async <T = string>(
     }
 };
 
+/**
+ * Сортировка пузырьком
+ * @param arr массив с элементами для сортировки
+ * @param handleCurrents функция обработки текущих элементов 
+ * @param handleModified функция обработки отсортированного элемента
+ * @param sortType вид сортировки
+ */
 export const bubbleSort = async <T = string>(
     arr: T[],
     handleCurrents: (indexes: number[]) => Promise<void>,
     handleModified: (index: number) => Promise<void>,
-    sortType: TSort = ASC
+    sortType: TSortKind = ASC
 ) => {
 
     const { length } = arr;

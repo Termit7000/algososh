@@ -1,4 +1,5 @@
 import React, { useReducer } from "react";
+import { ElementStates } from "../types/element-states";
 
 type TState<T = string> = {
     currentsElements: number[],
@@ -45,7 +46,7 @@ type TClearState = {
 
 type TActions<T> = TSetCurrents | TAddModified | TSetData<T> | TReset | TClearState;
 
-const reducer = <T=string>(state: TState<T>, action: TActions<T>): TState<T> => {
+const reducer = <T = string>(state: TState<T>, action: TActions<T>): TState<T> => {
 
     switch (action.type) {
         case ActionTypes.SET_CURRENTS:
@@ -58,9 +59,9 @@ const reducer = <T=string>(state: TState<T>, action: TActions<T>): TState<T> => 
             return { ...state, data: action.payload };
 
         case ActionTypes.RESET:
-            return {...initialState};
+            return { ...initialState };
         case ActionTypes.CLEAR_STATE:
-            return {...state, modifiedElements:[], currentsElements:[]}
+            return { ...state, modifiedElements: [], currentsElements: [] }
 
         default: return state;
     }
@@ -75,10 +76,15 @@ export const useSelectionSort = <T = string>() => {
         setData: (arr: T[]) => {
             dispatch({ type: ActionTypes.RESET })
             dispatch({ type: ActionTypes.SET_DATA, payload: arr })
+        },        
+        getState: (index: number): ElementStates => {
+            
+            if (state.modifiedElements.includes(index)) return ElementStates.Modified;
+            if (state.currentsElements.includes(index)) return ElementStates.Changing
+
+            return ElementStates.Default;
         },
-        isInCurrents: (index: number) => state.currentsElements.includes(index),
-        isInModified: (index: number) => state.modifiedElements.includes(index),
-        clearState: ()=>dispatch({type:ActionTypes.CLEAR_STATE}),
+        clearState: () => dispatch({ type: ActionTypes.CLEAR_STATE }),
         data: state.data
     };
 }

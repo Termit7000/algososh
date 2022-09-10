@@ -5,8 +5,6 @@ import { Input } from "../ui/input/input";
 import { Button } from "../ui/button/button";
 import { Circle } from "../ui/circle/circle";
 
-import { ElementStates } from "../../types/element-states";
-
 import { useSelectionSort } from "../../hooks/sort-hook";
 import { selectionSort } from "../../utils";
 
@@ -24,8 +22,7 @@ export const StringComponent: React.FC = () => {
   const {
     addModified,
     setCurrents,
-    isInCurrents,
-    isInModified,
+    getState,
     setData,
     data } = useSelectionSort();
 
@@ -40,23 +37,15 @@ export const StringComponent: React.FC = () => {
     addModified(index);
   }
 
-  const getCirculeState = (index: number): ElementStates => {
-
-    if (isInModified(index)) return ElementStates.Modified;
-    if (isInCurrents(index)) return ElementStates.Changing
-
-    return ElementStates.Default;
-  };
-
   const submitHandler = async (e: FormEvent) => {
     e.preventDefault();
-    
+
     setLoader(true);
     const arr: string[] = inputValue.split('');
     setData(arr);
 
-    await selectionSort(arr, handleCurrent, handleModified);   
-    setLoader(false);     
+    await selectionSort(arr, handleCurrent, handleModified);
+    setLoader(false);
   };
 
   const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -76,7 +65,7 @@ export const StringComponent: React.FC = () => {
 
           <div className={styles.result}>
             {data.map((i, index) =>
-              <Circle key={index + i} letter={i} state={getCirculeState(index)} />
+              <Circle key={index + i} letter={i} state={getState(index)} />
             )}
           </div>
         }

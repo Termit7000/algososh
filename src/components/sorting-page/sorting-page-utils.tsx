@@ -1,5 +1,5 @@
-const MAX_ITEMS = 9;
-const MIN_ITEMS = 7;
+const MAX_ITEMS = 17;
+const MIN_ITEMS = 3;
 
 function* getRandom(n:number, k:number) {
     for (let i=0; i<n; i++) {

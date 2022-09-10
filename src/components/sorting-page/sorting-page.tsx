@@ -1,17 +1,21 @@
 import React, { FormEvent, useState } from "react";
 
-import { Direction } from "../../types/direction";
+import { SolutionLayout } from "../ui/solution-layout/solution-layout";
 import { Button } from "../ui/button/button";
 import { Column } from "../ui/column/column";
 import { RadioInput } from "../ui/radio-input/radio-input";
-import { SolutionLayout } from "../ui/solution-layout/solution-layout";
+
 import { randomArr } from "./sorting-page-utils";
-
+import { Direction } from "../../types/direction";
 import { useSelectionSort } from "../../hooks/sort-hook";
-
 import { DELAY_IN_MS } from "../../constants/delays";
-import { bubbleSort, delay, selectionSort } from "../../utils";
-import { ElementStates } from "../../types/element-states";
+import { 
+  ASC, 
+  DESC,
+  bubbleSort, 
+  delay, 
+  selectionSort, 
+  TSortKind } from "../../utils";
 
 import styles from './sorting-page.module.css';
 
@@ -25,13 +29,12 @@ const DELAY = DELAY_IN_MS;
 export const SortingPage: React.FC = () => {
 
   const [sortType, setSortType] = useState(EType.SELECTION);
-  const [isCalculating, setCalculating] = useState<boolean>(false);
+  const [calculating, setCalculating] = useState<{inProgress: boolean, targetButton: TSortKind | ''}>({inProgress: false, targetButton: '' });
 
   const {
     addModified,
     setCurrents,
-    isInCurrents,
-    isInModified,
+    getState,
     setData,
     clearState,
     data } = useSelectionSort<number>();
@@ -61,25 +64,18 @@ export const SortingPage: React.FC = () => {
     addModified(index);
   }
 
-  const getState = (index: number): ElementStates => {
+  const sort = async (direction: TSortKind) => {
 
-    if (isInModified(index)) return ElementStates.Modified;
-    if (isInCurrents(index)) return ElementStates.Changing
-
-    return ElementStates.Default;
-  };
-
-  const sort = async (direction: 'ASC' | 'DESC') => {
-
-    setCalculating(true);
+    setCalculating({inProgress: true, targetButton: direction});
     clearState();
+
     if (sortType === EType.BUBBLE) {
       await bubbleSort(data, handleCurrent, handleModified, direction);
     } else {
       await selectionSort(data, handleCurrent, handleModified, direction);
     }
 
-    setCalculating(false);
+    setCalculating({inProgress: false, targetButton: ''});
   }
 
   return (
@@ -89,7 +85,7 @@ export const SortingPage: React.FC = () => {
 
         <form className={styles.form} onSubmit={submitHandler}>
 
-          <fieldset disabled={isCalculating} className={styles.fieldset}>
+          <fieldset disabled={calculating.inProgress} className={styles.fieldset}>
             <div onChange={changeHandler} className={styles.radio}>
               <RadioInput
                 defaultChecked={sortType === EType.SELECTION}
@@ -105,20 +101,22 @@ export const SortingPage: React.FC = () => {
 
             <Button
               sorting={Direction.Ascending}
-              isLoader={isCalculating}
+              disabled = {calculating.inProgress}
+              isLoader={calculating.targetButton===ASC}
               extraClass={`${styles.button}`}
               text="По возрастанию"
-              onClick={() => { sort('ASC') }} />
+              onClick={() => { sort(ASC) }} />
 
             <Button
               sorting={Direction.Descending}
-              isLoader={isCalculating}
+              disabled = {calculating.inProgress}
+              isLoader={calculating.targetButton===DESC}
               extraClass={`ml-3 ${styles.button}`}
               text="По убыванию"
-              onClick={() => { sort('DESC') }} />
+              onClick={() => { sort(DESC) }} />
 
             <Button
-              isLoader={isCalculating}
+              disabled = {calculating.inProgress}
               extraClass={`ml-20 ${styles.button}`}
               text="Новый массив"
               onClick={newArrayHandler} />
@@ -134,7 +132,6 @@ export const SortingPage: React.FC = () => {
               index={i}
               state={getState(index)} />
           ))}
-
         </div>
       </div>
     </SolutionLayout>
