@@ -26,19 +26,3 @@
     column-gap: 16px;
     row-gap: 48px;
 }
-
-.item {
-    display: flex;
-    flex-direction: column;
-    row-gap: 8px;
-}
-
-.text {
-    margin: 0;
-    font-family: 'Roboto';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 18px;
-    line-height: 22px;
-    color: #3D3D3D;
-}

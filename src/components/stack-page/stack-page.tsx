@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 
 import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 import { ElementStates } from "../../types/element-states";
@@ -20,6 +20,7 @@ const DELAY = SHORT_DELAY_IN_MS;
 
 export const StackPage: React.FC = () => {
 
+  const inputRef = useRef<HTMLInputElement>(null);
   const [activeItem, setActiveItem] = useState<number>(-1);
 
   const [inputValue, setValue] = useState<string>('');
@@ -57,7 +58,7 @@ export const StackPage: React.FC = () => {
     setActiveItem(-1);
     setCalculating({ inProgress: false, targetButton: '' });
 
-    document.getElementById('inputStack')?.focus();
+    inputRef.current?.focus();  
 
   };
 
@@ -79,7 +80,8 @@ export const StackPage: React.FC = () => {
     setValue('');
     reset();
     setCalculating({ inProgress: false, targetButton: '' });
-    document.getElementById('inputStack')?.focus();
+    
+    inputRef.current?.focus();
   }
 
   return (
@@ -90,6 +92,7 @@ export const StackPage: React.FC = () => {
 
           <Input
             id="inputStack"
+            ref={inputRef}
             autoFocus
             disabled={calculating.inProgress}
             value={inputValue}
@@ -122,7 +125,6 @@ export const StackPage: React.FC = () => {
         </form>
 
         <div className={styles.result}>
-
           {getData().map((i, index) => {
             return (
               <Circle
@@ -131,8 +133,7 @@ export const StackPage: React.FC = () => {
                 tail={String(index)}
                 state={(index === activeItem) ? ElementStates.Changing : ElementStates.Default}
                 letter={i} />
-            )
-          })}
+            )})}
         </div>
       </div>
     </SolutionLayout>

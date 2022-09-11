@@ -23,7 +23,7 @@ export const FibonacciPage: React.FC = () => {
   const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.valueAsNumber || 1;
     setValue(value);
-    setSubmitEnabled(value<=MAX_VALUE);
+    setSubmitEnabled(value <= MAX_VALUE);
   }
 
   const submitHandler = async (e: FormEvent) => {
@@ -73,10 +73,11 @@ export const FibonacciPage: React.FC = () => {
           {data.length > 0 && data.map((i, index) => {
 
             return (
-              <div key={i + '-' + index} className={styles.item}>
-                <Circle letter={String(i)} />
-                <p className={styles.text}>{index}</p>
-              </div>)
+
+              <Circle
+                key={i + '-' + index}
+                letter={String(i)}
+                tail={String(index)} />)
           })}
         </div>
       </div>
