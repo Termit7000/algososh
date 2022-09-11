@@ -1,0 +1,38 @@
+.container {
+    margin-top: 48px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.form {
+    max-width: 952px;
+    display: grid;
+    gap: 12px;
+
+    grid-template-areas: "inputValue addHead addTail removeHead removeTail" 
+                         "inputIndex addIndex addIndex removeIndex removeIndex";    
+}
+
+.input {
+    width: 204px;      
+}
+
+.button {    
+    height: 60px;
+}
+
+.addIndex {
+    grid-area: addIndex;
+}
+
+.removeIndex {
+    grid-area: removeIndex;
+}
+
+.result {
+    margin-top: 90px;
+    display: flex;   
+    
+    column-gap: 16px;
+}

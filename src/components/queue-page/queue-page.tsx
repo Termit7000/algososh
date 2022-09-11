@@ -65,6 +65,7 @@ export const QueuePage: React.FC = () => {
     
     await delay(DELAY);
     data[queueIndexes.head] = '';
+    setValue('');
 
     setQueueIndexes(prop=> {
       if (prop.head===prop.tail) return {head:-1, tail:-1};
@@ -81,6 +82,7 @@ export const QueuePage: React.FC = () => {
     setQueueIndexes({head:-1, tail: -1});
 
     await delay(DELAY);
+    setValue('');
 
     setCalculating({ inProgress: false, targetButton: '' });
   }
@@ -89,7 +91,7 @@ export const QueuePage: React.FC = () => {
     <SolutionLayout title="Очередь">
 
       <div className={styles.container}>
-        <form className={styles.form}>
+        <form className={styles.form} onSubmit={(e)=>e.preventDefault()}>
 
           <Input
             disabled={calculating.inProgress}

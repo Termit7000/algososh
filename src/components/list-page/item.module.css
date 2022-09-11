@@ -1,0 +1,8 @@
+.item {
+    display: flex;
+    flex-direction: column;
+}
+
+.arrow {
+    margin-top: 28px;
+}
