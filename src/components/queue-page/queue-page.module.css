@@ -23,3 +23,10 @@
     display: flex;
     column-gap: 16px;
 }
+
+.tail {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
