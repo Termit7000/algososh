@@ -6,9 +6,11 @@ import { ArrowIcon } from "../ui/icons/arrow-icon";
 import styles from './item.module.css';
 
 type TProps = {
+    
     isHead: boolean, //отображает head в заголовке
-    headValue: string, //если установлен, то маленький кружок вверху
     isTail: boolean, //если установлен, то подпись tail
+    headValue: string, //если установлен, то маленький кружок вверху
+    tailValue: string, //усли установлен, то маленький крудок внизу    
     value: string, //значение в кружке
     index: number, //подпись под кружком
     isEnd: boolean, //если true, то не отображается стрелка к следующему элементу
@@ -20,6 +22,7 @@ export const Item: React.FC<TProps> = (props) => {
     const {
         isHead,
         headValue,
+        tailValue,
         isTail,
         value,
         index,
@@ -40,17 +43,30 @@ export const Item: React.FC<TProps> = (props) => {
         return (isHead && 'head') || '';
     }
 
+    const tail = () => {
+        if (tailValue) {
+            return (
+                <Circle
+                    isSmall={true}
+                    letter={tailValue}
+                    state={ElementStates.Changing}
+                />);
+        }
+
+        return (String(index));
+    }
+
     return (
 
         <>
             <div className={styles.item}>
                 <Circle
                     letter={value}
-                    tail={String(index)}
                     head={head()}
+                    tail={tail()}
                     state={state} />
 
-                {isTail &&
+                {isTail && !tailValue &&
 
                     <p className={`text text_type_input text_color_input mt-15`}>tail</p>
                 }
