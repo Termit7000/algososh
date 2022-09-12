@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 import { ElementStates } from "../../types/element-states";
 import { delay } from "../../utils";
@@ -32,6 +32,21 @@ export const ListPage: React.FC = () => {
   const [inputValue, setValue] = useState<string>('');
   const [inputIndex, setIndex] = useState<number | ''>('');
 
+  const currentState = async (data: TStore) => {
+    setStore(data);
+    await delay(DELAY);
+  }
+
+  //начальное заполнение
+  useEffect(()=>{
+
+    const q = ~~(Math.random() * 5) +1;
+    for (let i =0; i<q; i++) {
+      nodeList.append(String(~~(Math.random()*100)), (data:TStore)=>{setStore(data)});
+    }
+
+  },[]);
+
   const changeValueHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
   }
@@ -48,11 +63,6 @@ export const ListPage: React.FC = () => {
     if (inProgress.includes(index)) return ElementStates.Changing;
 
     return ElementStates.Default;
-  }
-
-  const currentState = async (data: TStore) => {
-    setStore(data);
-    await delay(DELAY);
   }
 
   const hanlerAddTail = async () => {

@@ -1,6 +1,6 @@
 import { TStore } from "./types";
 
-class Node {
+class Node{
     value: string
     next: Node | null
     constructor(value: string, next?: Node | null) {
@@ -9,7 +9,7 @@ class Node {
     }
 }
 
-type TStateHandler = (state: TStore) => Promise<void>;
+type TStateHandler = (state: TStore) => Promise<void> | void;
 
 export class NodeList {
 
