@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/algososh/static/css/main.044c2b2d.css",
+    "main.css": "/algososh/static/css/main.b2dbf763.css",
     "main.js": "/algososh/static/js/main.00e3c36a.js",
     "static/media/bg.jpg": "/algososh/static/media/bg.971318c52485d1963a30.jpg",
     "static/media/arr-hover.svg": "/algososh/static/media/arr-hover.a52854e0c00e33cd4d38.svg",
@@ -17,11 +17,11 @@
     "static/media/string.svg": "/algososh/static/media/string.20f90662771c227e1bca.svg",
     "index.html": "/algososh/index.html",
     "static/media/loader.svg": "/algososh/static/media/loader.b935a8aeb021da7b2a90191a58ea95f4.svg",
-    "main.044c2b2d.css.map": "/algososh/static/css/main.044c2b2d.css.map",
+    "main.b2dbf763.css.map": "/algososh/static/css/main.b2dbf763.css.map",
     "main.00e3c36a.js.map": "/algososh/static/js/main.00e3c36a.js.map"
   },
   "entrypoints": [
-    "static/css/main.044c2b2d.css",
+    "static/css/main.b2dbf763.css",
     "static/js/main.00e3c36a.js"
   ]
 }
