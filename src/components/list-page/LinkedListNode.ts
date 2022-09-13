@@ -1,21 +1,22 @@
 import { TStore } from "./types";
 
-class Node{
-    value: string
-    next: Node | null
-    constructor(value: string, next?: Node | null) {
+class Node<T=string>{
+    
+    value: T
+    next: Node<T> | null
+    constructor(value: T, next?: Node<T> | null) {
         this.value = value;
         this.next = (next === undefined ? null : next);
     }
 }
 
-type TStateHandler = (state: TStore) => Promise<void> | void;
+type TStateHandler<T> = (state: TStore<T>) => Promise<void> | void;
 
-export class NodeList {
+export class NodeList<T=string> {
 
-    private head: Node | null = null;
+    private head: Node<T> | null = null;
 
-    private store: TStore = {
+    private store: TStore<T> = {
         data: [],
         direction: '',
         headIndex: -1,
@@ -25,10 +26,15 @@ export class NodeList {
         tailIndex: -1
     };
 
-    async append(element: string, stateHandler: TStateHandler) {
+    /**
+     * Добавляет элемент в конец списка
+     * @param element 
+     * @param stateHandler 
+     */
+    async append(element: T, stateHandler: TStateHandler<T>) {
 
-        let current;
-        const node = new Node(element);
+        let current: Node<T>;
+        const node = new Node<T>(element);
 
         this.store.direction = 'ADDING';
 
@@ -84,7 +90,13 @@ export class NodeList {
         await stateHandler(this.getState());
     }
 
-    async addHead(value: string, stateHandler: TStateHandler) {
+    /**
+     * Добавляет элемент в начало списка
+     * @param value 
+     * @param stateHandler 
+     * @returns 
+     */
+    async prepend(value: T, stateHandler: TStateHandler<T>) {
 
         if (!this.head) {
             await this.append(value, stateHandler);
@@ -113,7 +125,7 @@ export class NodeList {
         this.head = new Node(value, this.head);
     }
 
-    async removeHead(stateHandler: TStateHandler) {
+    async deleteHead(stateHandler: TStateHandler<T>) {
 
         if (!this.head) return;
 
@@ -137,7 +149,7 @@ export class NodeList {
         await stateHandler(this.getState());
     }
 
-    async removeTail(stateHandler: TStateHandler) {
+    async deleteTail(stateHandler: TStateHandler<T>) {
         if (!this.head) return;
 
         this.store.direction = 'REMOVING';
@@ -165,12 +177,12 @@ export class NodeList {
         await stateHandler(this.getState());
     }
 
-    async insertAt(element: string, index: number, stateHandler: TStateHandler) {
+    async addByIndex(element: T, index: number, stateHandler: TStateHandler<T>) {
 
         if (index < 0 || index > this.store.tailIndex) return;
 
         if (index === 0) {
-            await this.addHead(element, stateHandler);
+            await this.prepend(element, stateHandler);
             return;
         }
 
@@ -210,11 +222,11 @@ export class NodeList {
         await stateHandler(this.getState());           
     }
 
-    async removeAt(index: number, stateHandler: TStateHandler) {
+    async deleteByIndex(index: number, stateHandler: TStateHandler<T>) {
         if (index < 0 || index > this.store.tailIndex) return;
 
         if (index===0) {
-            await this.removeHead(stateHandler);
+            await this.deleteHead(stateHandler);
             return;
         }
 
@@ -252,7 +264,7 @@ export class NodeList {
         await stateHandler(this.getState());
     }
 
-    private initValue(value: string) {
+    private initValue(value: T) {
         this.store.insertion = { value, index: -1 };
     }
 
@@ -273,7 +285,7 @@ export class NodeList {
         this.store.inProgress = [];
     }
 
-    getState(): TStore {
+    getState(): TStore<T> {
         return { ...this.store };
     }
 

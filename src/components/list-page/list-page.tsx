@@ -8,7 +8,7 @@ import { SolutionLayout } from "../ui/solution-layout/solution-layout";
 import { Item } from "./item";
 
 import styles from './list-page.module.css';
-import { NodeList } from "./NodeList";
+import { NodeList } from "./LinkedListNode";
 import { TStore } from "./types";
 
 enum BUTTONS {
@@ -83,7 +83,7 @@ export const ListPage: React.FC = () => {
 
     setCalculating({inProgress:true, targetButton: BUTTONS.ADD_HEAD}); 
 
-    await nodeList.addHead(inputValue, currentState);
+    await nodeList.prepend(inputValue, currentState);
 
     setValue('');
     setCalculating({inProgress:false, targetButton: ''});
@@ -93,7 +93,7 @@ export const ListPage: React.FC = () => {
 
     setCalculating({inProgress:true, targetButton: BUTTONS.REMOVE_HEAD}); 
 
-    await nodeList.removeHead(currentState);
+    await nodeList.deleteHead(currentState);
     
     setCalculating({inProgress:false, targetButton: ''});
   }
@@ -102,7 +102,7 @@ export const ListPage: React.FC = () => {
 
     setCalculating({inProgress:true, targetButton: BUTTONS.REMOVE_TAIL}); 
 
-    await nodeList.removeTail(currentState);
+    await nodeList.deleteTail(currentState);
     
     setCalculating({inProgress:false, targetButton: ''});
   }
@@ -112,7 +112,7 @@ export const ListPage: React.FC = () => {
 
     setCalculating({inProgress:true, targetButton: BUTTONS.ADD_INDEX}); 
 
-    await nodeList.insertAt(inputValue, inputIndex, currentState);
+    await nodeList.addByIndex(inputValue, inputIndex, currentState);
     
     setValue('');
     setIndex('');
@@ -125,7 +125,7 @@ export const ListPage: React.FC = () => {
 
     setCalculating({inProgress:true, targetButton: BUTTONS.REMOVE_INDEX}); 
 
-    await nodeList.removeAt(inputIndex, currentState);
+    await nodeList.deleteByIndex(inputIndex, currentState);
     
     setIndex('');
     setCalculating({inProgress:false, targetButton: ''});
@@ -146,7 +146,7 @@ export const ListPage: React.FC = () => {
             placeholder="Введите значение" />
 
           <Button
-            disabled={calculating.inProgress}
+            disabled={calculating.inProgress || inputValue===''}
             isLoader={calculating.targetButton === BUTTONS.ADD_HEAD}
             extraClass={`${styles.button}`}
             text="Добавить в head" 
@@ -154,21 +154,21 @@ export const ListPage: React.FC = () => {
 
           <Button
 
-            disabled={calculating.inProgress}
+            disabled={calculating.inProgress || inputValue===''}
             isLoader={calculating.targetButton === BUTTONS.ADD_TAIL}
             extraClass={`${styles.button}`}
             text="Добавить в tail"
             onClick={hanlerAddTail} />
 
           <Button
-            disabled={calculating.inProgress}
+            disabled={calculating.inProgress || store.tailIndex<0}
             isLoader={calculating.targetButton === BUTTONS.REMOVE_HEAD}
             extraClass={`${styles.button}`}
             text="Удалить из head" 
             onClick={handlerRemoveHead}/>
 
           <Button
-            disabled={calculating.inProgress}
+            disabled={calculating.inProgress || store.tailIndex<0}
             isLoader={calculating.targetButton === BUTTONS.REMOVE_TAIL}
             extraClass={`${styles.button}`}
             text="Удалить из tail" 
@@ -186,14 +186,14 @@ export const ListPage: React.FC = () => {
             placeholder="Введите индекс"/>
 
           <Button
-            disabled={calculating.inProgress}
+            disabled={calculating.inProgress || (inputIndex==='' || inputIndex>store.tailIndex) || (inputValue==='')}
             isLoader={calculating.targetButton === BUTTONS.ADD_INDEX}
             extraClass={`${styles.button} ${styles.addIndex}`}
             text="Добавить по индексу"
             onClick={handlerInsertAt} />
 
           <Button
-            disabled={calculating.inProgress}
+            disabled={calculating.inProgress || (inputIndex==='' || inputIndex>store.tailIndex)}
             isLoader={calculating.targetButton === BUTTONS.REMOVE_INDEX}
             extraClass={`${styles.button} ${styles.removeIndex}`}
             text="Удалить по индексу" 

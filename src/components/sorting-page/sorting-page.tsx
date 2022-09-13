@@ -1,4 +1,4 @@
-import React, { FormEvent, useState } from "react";
+import React, { FormEvent, useEffect, useState } from "react";
 
 import { SolutionLayout } from "../ui/solution-layout/solution-layout";
 import { Button } from "../ui/button/button";
@@ -9,13 +9,14 @@ import { randomArr } from "./sorting-page-utils";
 import { Direction } from "../../types/direction";
 import { useSelectionSort } from "../../hooks/sort-hook";
 import { DELAY_IN_MS } from "../../constants/delays";
-import { 
-  ASC, 
+import {
+  ASC,
   DESC,
-  bubbleSort, 
-  delay, 
-  selectionSort, 
-  TSortKind } from "../../utils";
+  bubbleSort,
+  delay,
+  selectionSort,
+  TSortKind
+} from "../../utils";
 
 import styles from './sorting-page.module.css';
 
@@ -29,7 +30,7 @@ const DELAY = DELAY_IN_MS;
 export const SortingPage: React.FC = () => {
 
   const [sortType, setSortType] = useState(EType.SELECTION);
-  const [calculating, setCalculating] = useState<{inProgress: boolean, targetButton: TSortKind | ''}>({inProgress: false, targetButton: '' });
+  const [calculating, setCalculating] = useState<{ inProgress: boolean, targetButton: TSortKind | '' }>({ inProgress: false, targetButton: '' });
 
   const {
     addModified,
@@ -38,6 +39,11 @@ export const SortingPage: React.FC = () => {
     setData,
     clearState,
     data } = useSelectionSort<number>();
+
+  useEffect(() => {
+    setData(randomArr());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const submitHandler = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -66,7 +72,7 @@ export const SortingPage: React.FC = () => {
 
   const sort = async (direction: TSortKind) => {
 
-    setCalculating({inProgress: true, targetButton: direction});
+    setCalculating({ inProgress: true, targetButton: direction });
     clearState();
 
     if (sortType === EType.BUBBLE) {
@@ -75,7 +81,7 @@ export const SortingPage: React.FC = () => {
       await selectionSort(data, handleCurrent, handleModified, direction);
     }
 
-    setCalculating({inProgress: false, targetButton: ''});
+    setCalculating({ inProgress: false, targetButton: '' });
   }
 
   return (
@@ -101,22 +107,22 @@ export const SortingPage: React.FC = () => {
 
             <Button
               sorting={Direction.Ascending}
-              disabled = {calculating.inProgress}
-              isLoader={calculating.targetButton===ASC}
+              disabled={calculating.inProgress}
+              isLoader={calculating.targetButton === ASC}
               extraClass={`${styles.button}`}
               text="По возрастанию"
               onClick={() => { sort(ASC) }} />
 
             <Button
               sorting={Direction.Descending}
-              disabled = {calculating.inProgress}
-              isLoader={calculating.targetButton===DESC}
+              disabled={calculating.inProgress}
+              isLoader={calculating.targetButton === DESC}
               extraClass={`ml-3 ${styles.button}`}
               text="По убыванию"
               onClick={() => { sort(DESC) }} />
 
             <Button
-              disabled = {calculating.inProgress}
+              disabled={calculating.inProgress}
               extraClass={`ml-20 ${styles.button}`}
               text="Новый массив"
               onClick={newArrayHandler} />

@@ -6,7 +6,7 @@ import { Button } from "../ui/button/button";
 import { Circle } from "../ui/circle/circle";
 
 import { useSelectionSort } from "../../hooks/sort-hook";
-import { selectionSort } from "../../utils";
+import { DESC, selectionSort } from "../../utils";
 
 import styles from './string.module.css';
 import { DELAY_IN_MS } from "../../constants/delays";
@@ -44,7 +44,7 @@ export const StringComponent: React.FC = () => {
     const arr: string[] = inputValue.split('');
     setData(arr);
 
-    await selectionSort(arr, handleCurrent, handleModified);
+    await selectionSort(arr, handleCurrent, handleModified, DESC);
     setLoader(false);
   };
 
@@ -67,6 +67,7 @@ export const StringComponent: React.FC = () => {
             placeholder="Введите текст" />
           <Button
             isLoader={isLoader}
+            disabled={!inputValue}
             extraClass={styles.button}
             type="submit"
             text="Развернуть" />
