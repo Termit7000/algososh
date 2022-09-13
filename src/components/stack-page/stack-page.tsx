@@ -7,7 +7,7 @@ import { Button } from "../ui/button/button";
 import { Circle } from "../ui/circle/circle";
 import { Input } from "../ui/input/input";
 import { SolutionLayout } from "../ui/solution-layout/solution-layout";
-import { useStack } from "./stack-hook";
+import Stack from "./Stack";
 
 import styles from './stack-page.module.css';
 
@@ -16,23 +16,18 @@ const POP = 'POP';
 const CLEAN = 'CLEAN';
 type TOperationKinds = typeof PUSH | typeof POP | typeof CLEAN | '';
 
+const stack = new Stack();
+
 const DELAY = SHORT_DELAY_IN_MS;
 
 export const StackPage: React.FC = () => {
 
   const inputRef = useRef<HTMLInputElement>(null);
   const [activeItem, setActiveItem] = useState<number>(-1);
+  const [data, setData] = useState<string[]>(stack.elements);
 
   const [inputValue, setValue] = useState<string>('');
   const [calculating, setCalculating] = useState<{ inProgress: boolean, targetButton: TOperationKinds }>({ inProgress: false, targetButton: '' });
-
-  const {
-    push,
-    pop,
-    reset,
-    getHead,
-    getData
-  } = useStack();
 
   const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -47,38 +42,45 @@ export const StackPage: React.FC = () => {
 
     if (!inputValue) return;
 
-    setCalculating({ inProgress: true, targetButton: PUSH });
+    setCalculating({ inProgress: true, targetButton: PUSH });    
+
+    stack.push(inputValue);
+
+    setData(stack.elements);    
+    setActiveItem(stack.head-1);
+
+    await delay(DELAY);    
+    
     setValue('');
-
-    push(inputValue);
-    setActiveItem(getHead());
-
-    await delay(DELAY);
-
     setActiveItem(-1);
+
     setCalculating({ inProgress: false, targetButton: '' });
 
     inputRef.current?.focus();  
-
   };
 
   const handlerPop = async () => {
 
-    if (getHead() < 1) return;
+    if (stack.head < 1) return;
 
     setCalculating({ inProgress: true, targetButton: POP });
-    setActiveItem(getHead() - 1);
+    setActiveItem(stack.head - 1);
 
     await delay(DELAY);
+        
     setActiveItem(-1);
-    pop();
+    stack.pop();
+    setData(stack.elements);
+
     setCalculating({ inProgress: false, targetButton: '' });
   }
 
   const handlerReset = async () => {
     setCalculating({ inProgress: true, targetButton: CLEAN });
+    
     setValue('');
-    reset();
+    stack.clear();
+    setData(stack.elements);
     setCalculating({ inProgress: false, targetButton: '' });
     
     inputRef.current?.focus();
@@ -103,21 +105,21 @@ export const StackPage: React.FC = () => {
             placeholder="Введите текст" />
 
           <Button
-            disabled={calculating.inProgress}
+            disabled={calculating.inProgress || inputValue===''}
             isLoader={calculating.targetButton === PUSH}
             extraClass={`mr-6 ${styles.button}`}
             text="Добавить"
             onClick={handlerPush} />
 
           <Button
-            disabled={calculating.inProgress}
+            disabled={calculating.inProgress || stack.head<=0}
             isLoader={calculating.targetButton === POP}
             extraClass={` ${styles.button}`}
             text="Удалить"
             onClick={handlerPop} />
 
           <Button
-            disabled={calculating.inProgress}
+            disabled={calculating.inProgress || stack.head<=0}
             isLoader={calculating.targetButton === CLEAN}
             extraClass={`ml-40 ${styles.button}`}
             text="Очистить"
@@ -125,11 +127,11 @@ export const StackPage: React.FC = () => {
         </form>
 
         <div className={styles.result}>
-          {getData().map((i, index) => {
+          {data.map((i, index) => {
             return (
               <Circle
                 key={`${index}-${i}`}
-                head={(index === getHead()-1) ? 'top' : ''}
+                head={(index === stack.head-1) ? 'top' : ''}
                 tail={String(index)}
                 state={(index === activeItem) ? ElementStates.Changing : ElementStates.Default}
                 letter={i} />

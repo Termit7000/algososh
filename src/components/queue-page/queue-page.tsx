@@ -6,6 +6,7 @@ import { Button } from "../ui/button/button";
 import { Circle } from "../ui/circle/circle";
 import { Input } from "../ui/input/input";
 import { SolutionLayout } from "../ui/solution-layout/solution-layout";
+import Queue from "./Queue";
 
 import styles from './queue-page.module.css';
 
@@ -14,14 +15,14 @@ const DEQUEUE = 'DEQUEUE';
 const CLEAN = 'CLEAN';
 type TOperationKinds = typeof ENQUEUE | typeof DEQUEUE | typeof CLEAN | '';
 
-const MAX_ITEMS = 7;
 const DELAY = SHORT_DELAY_IN_MS;
 
-const data = (new Array(MAX_ITEMS)).fill("");
+const queue = new Queue();
+
 export const QueuePage: React.FC = () => {
 
   const [active, setActive] = useState(-1);
-  const [queueIndexes, setQueueIndexes] = useState({ head: -1, tail: -1 });
+  const [data, setData] = useState(queue.elements);
 
   const [inputValue, setValue] = useState<string>('');
   const [calculating, setCalculating] = useState<{ inProgress: boolean, targetButton: TOperationKinds }>({ inProgress: false, targetButton: '' });
@@ -32,45 +33,32 @@ export const QueuePage: React.FC = () => {
 
   const handlerAdd = async () => {
 
-    if (queueIndexes.tail >= MAX_ITEMS - 1 || !inputValue) return;
+    if (queue.isFilled() || !inputValue) return;
 
     setCalculating({ inProgress: true, targetButton: ENQUEUE });
 
-    setActive(queueIndexes.tail + 1);
-
-    setQueueIndexes(prop => {
-
-      if (prop.head < 0) {
-        prop.head = 0;
-      }
-
-      const next = prop.tail + 1;
-      data[next] = inputValue;
-
-      return { ...prop, tail: next };
-    });
+    queue.enqueue(inputValue);
+    setActive(queue.getTail());
 
     await delay(DELAY);
 
+    setData(queue.elements);
     setActive(-1);
     setValue('');
     setCalculating({ inProgress: false, targetButton: '' });
   }
 
   const handlerRemove = async () => {
-    if (queueIndexes.head > queueIndexes.tail || queueIndexes.head<0) return;
+    if (queue.isEmpty()) return;
 
     setCalculating({ inProgress: true, targetButton: DEQUEUE });
-    setActive(queueIndexes.head);
-    
+    setActive(queue.getHead());
+    queue.dequeue();
+
     await delay(DELAY);
-    data[queueIndexes.head] = '';
+
+    setData(queue.elements);
     setValue('');
-
-    setQueueIndexes(prop=> {
-      if (prop.head===prop.tail) return {head:-1, tail:-1};
-      return {...prop, head: prop.head+1}});
-
     setActive(-1);
     setCalculating({ inProgress: false, targetButton: '' });
   }
@@ -78,12 +66,13 @@ export const QueuePage: React.FC = () => {
   const handlerReset = async () => {
     setCalculating({ inProgress: true, targetButton: CLEAN });
 
-    data.fill('');
-    setQueueIndexes({head:-1, tail: -1});
+    queue.clear();
 
     await delay(DELAY);
-    setValue('');
 
+    setData(queue.elements);
+    setValue('');
+    setActive(-1);
     setCalculating({ inProgress: false, targetButton: '' });
   }
 
@@ -91,7 +80,7 @@ export const QueuePage: React.FC = () => {
     <SolutionLayout title="Очередь">
 
       <div className={styles.container}>
-        <form className={styles.form} onSubmit={(e)=>e.preventDefault()}>
+        <form className={styles.form} onSubmit={(e) => e.preventDefault()}>
 
           <Input
             disabled={calculating.inProgress}
@@ -103,21 +92,21 @@ export const QueuePage: React.FC = () => {
             placeholder="Введите текст" />
 
           <Button
-            disabled={calculating.inProgress}
+            disabled={calculating.inProgress || !inputValue}
             isLoader={calculating.targetButton === ENQUEUE}
             extraClass={`mr-6 ${styles.button} `}
             text="Добавить"
             onClick={handlerAdd} />
 
           <Button
-            disabled={calculating.inProgress}
+            disabled={calculating.inProgress || queue.isEmpty()}
             isLoader={calculating.targetButton === DEQUEUE}
             extraClass={` ${styles.button} `}
             text="Удалить"
             onClick={handlerRemove} />
 
           <Button
-            disabled={calculating.inProgress}
+            disabled={calculating.inProgress || queue.isEmpty()}
             isLoader={calculating.targetButton === CLEAN}
             extraClass={`ml-40 ${styles.button} `}
             text="Очистить"
@@ -128,15 +117,14 @@ export const QueuePage: React.FC = () => {
         <div className={styles.result}>
 
           {data.map((i, index) =>
-            <div key={index} className={styles.tail}>
-              <Circle
-                letter={i}
-                tail={String(index)}
-                head={(index === queueIndexes.head) ? 'head' : ''}
-                state={(index === active) ? ElementStates.Changing : ElementStates.Default} />
-
-              {index === queueIndexes.tail && <p className={`text text_type_input text_color_input mt-15`}>tail</p>}
-            </div>)}
+            <Circle
+              key={`${index} - ${i}`}
+              head={(index === queue.getHead()) ? 'head' : ''}
+              letter={i}
+              index={index}
+              tail={(index === queue.getTail()) ? 'tail' : ''}
+              state={(index === active) ? ElementStates.Changing : ElementStates.Default} />
+          )}
         </div>
       </div>
     </SolutionLayout>
