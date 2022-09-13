@@ -8,7 +8,7 @@ import { RadioInput } from "../ui/radio-input/radio-input";
 import { randomArr } from "./sorting-page-utils";
 import { Direction } from "../../types/direction";
 import { useSelectionSort } from "../../hooks/sort-hook";
-import { DELAY_IN_MS } from "../../constants/delays";
+import { DELAY_IN_MS, SHORT_DELAY_IN_MS } from "../../constants/delays";
 import {
   ASC,
   DESC,
@@ -25,7 +25,7 @@ enum EType {
   BUBBLE = 'BUBBLE'
 }
 
-const DELAY = DELAY_IN_MS;
+const DELAY = 200;
 
 export const SortingPage: React.FC = () => {
 

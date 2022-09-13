@@ -20,6 +20,7 @@
 
 .button {    
     height: 60px;
+    min-width: 130px;
 }
 
 .addIndex {
