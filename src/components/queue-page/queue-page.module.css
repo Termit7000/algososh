@@ -1,0 +1,25 @@
+.container {
+    margin-top: 48px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.form {
+    max-width: 829px;
+    display: flex;
+}
+
+.input {
+    width: 377px;    
+}
+
+.button {    
+    height: 60px;
+}
+
+.result {
+    margin-top: 48px;
+    display: flex;
+    column-gap: 16px;
+}
