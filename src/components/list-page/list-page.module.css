@@ -12,6 +12,7 @@
 
     grid-template-areas: "inputValue addHead addTail removeHead removeTail" 
                          "inputIndex addIndex addIndex removeIndex removeIndex";    
+                        
 }
 
 .input {
@@ -20,7 +21,7 @@
 
 .button {    
     height: 60px;
-    min-width: 130px;
+    min-width: 170px;
 }
 
 .addIndex {
