@@ -12,9 +12,13 @@ import styles from './string.module.css';
 import { DELAY_IN_MS } from "../../constants/delays";
 import { delay } from "../../utils";
 
-const DELAY = DELAY_IN_MS;
+//const DELAY = DELAY_IN_MS;
 
-export const StringComponent: React.FC = () => {
+type TStingProps = {
+  DELAY?: number
+};
+
+export const StringComponent: React.FC<TStingProps> = ({DELAY = DELAY_IN_MS}) => {
 
   const [inputValue, setValue] = useState<string>('');
   const [isLoader, setLoader] = useState<boolean>(false);

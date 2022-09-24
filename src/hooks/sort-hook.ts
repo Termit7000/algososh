@@ -73,6 +73,7 @@ export const useSelectionSort = <T = string>() => {
     return {
         setCurrents: (indexes: number[]) => dispatch({ type: ActionTypes.SET_CURRENTS, payload: indexes }),
         addModified: (index: number) => dispatch({ type: ActionTypes.ADD_MODIFIED, payload: index }),
+        
         setData: (arr: T[]) => {
             dispatch({ type: ActionTypes.RESET })
             dispatch({ type: ActionTypes.SET_DATA, payload: arr })

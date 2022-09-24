@@ -4,8 +4,6 @@
   "private": true,
   "homepage": "https://termit7000.github.io/algososh",
   "dependencies": {
-    "@testing-library/jest-dom": "^5.16.2",
-    "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",
     "@types/jest": "^27.4.0",
     "@types/node": "^16.11.22",
@@ -21,8 +19,9 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",    
+    "start": "react-scripts start",
     "build": "react-scripts build",
+    "cypress:open": "npx cypress open",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
     "test": "react-scripts test",
@@ -47,7 +46,12 @@
     ]
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^12.1.5",
     "@types/react-router-dom": "^5.3.3",
-    "gh-pages": "^4.0.0"
+    "cypress": "^10.8.0",
+    "eslint-plugin-cypress": "^2.12.1",
+    "gh-pages": "^4.0.0",
+    "jest": "^27.5.1"
   }
 }
