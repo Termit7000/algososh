@@ -14,16 +14,14 @@ const DELAY = SHORT_DELAY_IN_MS;
 const MAX_VALUE = 19;
 
 export const FibonacciPage: React.FC = () => {
-  const [inputValue, setValue] = useState<number>(1);
+  const [inputValue, setValue] = useState<number| ''>('');
   const [isLoader, setLoader] = useState<boolean>(false);
-  const [submitEnabled, setSubmitEnabled] = useState<boolean>(true);
+  
 
   const [data, setData] = useState<number[]>([]);
 
   const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.valueAsNumber || 1;
-    setValue(value);
-    setSubmitEnabled(value <= MAX_VALUE);
+    setValue(Number(e.target.value) || '');    
   }
 
   const submitHandler = async (e: FormEvent) => {
@@ -32,7 +30,7 @@ export const FibonacciPage: React.FC = () => {
     setData([]);
     setLoader(true);
 
-    const gen = fibonacci(inputValue + 1);
+    const gen = fibonacci(inputValue || 0 + 1);
 
     for (let value of gen) {
       setData(prev => [...prev, value]);
@@ -61,7 +59,7 @@ export const FibonacciPage: React.FC = () => {
             placeholder="Введите текст" />
 
           <Button
-            disabled={!submitEnabled}
+            disabled={inputValue === '' || inputValue > MAX_VALUE || isLoader }
             isLoader={isLoader}
             extraClass={styles.button}
             type="submit"
