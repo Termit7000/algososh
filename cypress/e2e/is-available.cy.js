@@ -1,4 +1,3 @@
-const { wait } = require("@testing-library/user-event/dist/utils");
 
 describe('app works correctly with routes', () => {
 
@@ -11,6 +10,9 @@ describe('app works correctly with routes', () => {
   })
 
   it('Тестирование переходов по страницам', () => {
+
+    //использовался подход описанный в https://filiphric.com/testing-links-with-cypress
+    //указано, что его предпочтительней использовать, чем тот который указан Практикумом
 
     cy.get('main a[href]').each(page=>{
       cy.request(page.prop('href'));
