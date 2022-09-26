@@ -15,7 +15,7 @@ const DEQUEUE = 'DEQUEUE';
 const CLEAN = 'CLEAN';
 type TOperationKinds = typeof ENQUEUE | typeof DEQUEUE | typeof CLEAN | '';
 
-const DELAY = SHORT_DELAY_IN_MS;
+const DELAY =  SHORT_DELAY_IN_MS;
 
 const queue = new Queue();
 
