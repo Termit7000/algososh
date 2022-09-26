@@ -29,7 +29,7 @@ describe('Очередь', ()=>{
         cy.get('@add_button').should('be.enabled').click();
 
         cy.get('[data-testid="circle"]').first().as('testComp');
-        cy.get('@testComp').get('[class^="circle_circle"]').first().should('be.exist').as('circle');        
+        cy.get('@testComp').find('[class^="circle_circle"]').first().should('be.exist').as('circle');        
 
         //In PROGRESS
         cy.get('@circle').should('have.css', 'border', '4px solid rgb(210, 82, 225)');
@@ -41,7 +41,7 @@ describe('Очередь', ()=>{
         cy.get('@testComp').contains('head');
         cy.get('@testComp').contains('tail');
 
-        cy.get('@testComp').get('[data-testid="circle_value"]').should('be.visible').contains(VALUE);
+        cy.get('@testComp').find('[data-testid="circle_value"]').should('be.visible').contains(VALUE);
 
         cy.clock().invoke('restore');
     })
@@ -49,7 +49,7 @@ describe('Очередь', ()=>{
     it('Удаление из очереди', ()=>{
 
         cy.get('[data-testid="circle"]').first().as('testComp');
-        cy.get('@testComp').get('[class^="circle_circle"]').first().should('be.exist').as('circle');        
+        cy.get('@testComp').find('[class^="circle_circle"]').first().should('be.exist').as('circle');        
 
         cy.get('@input').type('abc');
         cy.get('@add_button').should('be.enabled').click();

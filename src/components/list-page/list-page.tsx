@@ -10,6 +10,7 @@ import { Item } from "./item";
 import styles from './list-page.module.css';
 import { NodeList } from "./LinkedListNode";
 import { TStore } from "./types";
+import { debug } from "console";
 
 enum BUTTONS {
   ADD_HEAD,
@@ -34,7 +35,7 @@ export const ListPage: React.FC = () => {
 
   const currentState = async (data: TStore) => {
     setStore(data);
-    await delay(DELAY);
+    await delay(DELAY);         
   }
 
   //начальное заполнение
