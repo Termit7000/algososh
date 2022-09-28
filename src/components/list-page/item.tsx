@@ -33,7 +33,7 @@ export const Item: React.FC<TProps> = (props) => {
     const head = () => {
         if (headValue) {
             return (
-                <Circle
+                <Circle                    
                     isSmall={true}
                     letter={headValue}
                     state={ElementStates.Changing}
@@ -46,7 +46,7 @@ export const Item: React.FC<TProps> = (props) => {
     const tail = () => {
         if (tailValue) {
             return (
-                <Circle
+                <Circle                    
                     isSmall={true}
                     letter={tailValue}
                     state={ElementStates.Changing}

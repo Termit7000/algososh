@@ -1,0 +1,296 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Circle Без буквы 1`] = `
+<div
+  class="content "
+  data-testid="circle"
+>
+  <div
+    class="text text_type_input text_color_input mb-4 absolute head element"
+  />
+  <div
+    class="circle   default"
+  >
+    <p
+      class="text text_type_circle text_color_input letter"
+      data-testid="circle_value"
+    />
+  </div>
+  <p
+    class="text text_type_input text_color_input mt-4 absolute index"
+  />
+  <div
+    class="text text_type_input text_color_input mt-4 absolute tail30 element"
+  />
+</div>
+`;
+
+exports[`Circle В состоянии Changing 1`] = `
+<div
+  class="content "
+  data-testid="circle"
+>
+  <div
+    class="text text_type_input text_color_input mb-4 absolute head element"
+  />
+  <div
+    class="circle   changing"
+  >
+    <p
+      class="text text_type_circle text_color_input letter"
+      data-testid="circle_value"
+    />
+  </div>
+  <p
+    class="text text_type_input text_color_input mt-4 absolute index"
+  />
+  <div
+    class="text text_type_input text_color_input mt-4 absolute tail30 element"
+  />
+</div>
+`;
+
+exports[`Circle В состоянии Modified 1`] = `
+<div
+  class="content "
+  data-testid="circle"
+>
+  <div
+    class="text text_type_input text_color_input mb-4 absolute head element"
+  />
+  <div
+    class="circle   modified"
+  >
+    <p
+      class="text text_type_circle text_color_input letter"
+      data-testid="circle_value"
+    />
+  </div>
+  <p
+    class="text text_type_input text_color_input mt-4 absolute index"
+  />
+  <div
+    class="text text_type_input text_color_input mt-4 absolute tail30 element"
+  />
+</div>
+`;
+
+exports[`Circle В состоянии default 1`] = `
+<div
+  class="content "
+  data-testid="circle"
+>
+  <div
+    class="text text_type_input text_color_input mb-4 absolute head element"
+  />
+  <div
+    class="circle   default"
+  >
+    <p
+      class="text text_type_circle text_color_input letter"
+      data-testid="circle_value"
+    />
+  </div>
+  <p
+    class="text text_type_input text_color_input mt-4 absolute index"
+  />
+  <div
+    class="text text_type_input text_color_input mt-4 absolute tail30 element"
+  />
+</div>
+`;
+
+exports[`Circle С head 1`] = `
+<div
+  class="content "
+  data-testid="circle"
+>
+  <div
+    class="text text_type_input text_color_input mb-4 absolute head string"
+  >
+    hdd
+  </div>
+  <div
+    class="circle   default"
+  >
+    <p
+      class="text text_type_circle text_color_input letter"
+      data-testid="circle_value"
+    />
+  </div>
+  <p
+    class="text text_type_input text_color_input mt-4 absolute index"
+  />
+  <div
+    class="text text_type_input text_color_input mt-4 absolute tail30 element"
+  />
+</div>
+`;
+
+exports[`Circle С index 1`] = `
+<div
+  class="content "
+  data-testid="circle"
+>
+  <div
+    class="text text_type_input text_color_input mb-4 absolute head element"
+  />
+  <div
+    class="circle   default"
+  >
+    <p
+      class="text text_type_circle text_color_input letter"
+      data-testid="circle_value"
+    />
+  </div>
+  <p
+    class="text text_type_input text_color_input mt-4 absolute index"
+  >
+    10200
+  </p>
+  <div
+    class="text text_type_input text_color_input mt-4 absolute tail60 element"
+  />
+</div>
+`;
+
+exports[`Circle С react-элемент в head 1`] = `
+<div
+  class="content "
+  data-testid="circle"
+>
+  <div
+    class="text text_type_input text_color_input mb-4 absolute head element"
+  >
+    <p
+      data-testid="head"
+    >
+      head
+    </p>
+  </div>
+  <div
+    class="circle   default"
+  >
+    <p
+      class="text text_type_circle text_color_input letter"
+      data-testid="circle_value"
+    />
+  </div>
+  <p
+    class="text text_type_input text_color_input mt-4 absolute index"
+  />
+  <div
+    class="text text_type_input text_color_input mt-4 absolute tail30 element"
+  />
+</div>
+`;
+
+exports[`Circle С react-элемент в tail 1`] = `
+<div
+  class="content "
+  data-testid="circle"
+>
+  <div
+    class="text text_type_input text_color_input mb-4 absolute head element"
+  />
+  <div
+    class="circle   default"
+  >
+    <p
+      class="text text_type_circle text_color_input letter"
+      data-testid="circle_value"
+    />
+  </div>
+  <p
+    class="text text_type_input text_color_input mt-4 absolute index"
+  />
+  <div
+    class="text text_type_input text_color_input mt-4 absolute tail30 element"
+  >
+    <p
+      data-testid="tail"
+    >
+      tail
+    </p>
+  </div>
+</div>
+`;
+
+exports[`Circle С tail 1`] = `
+<div
+  class="content "
+  data-testid="circle"
+>
+  <div
+    class="text text_type_input text_color_input mb-4 absolute head element"
+  />
+  <div
+    class="circle   default"
+  >
+    <p
+      class="text text_type_circle text_color_input letter"
+      data-testid="circle_value"
+    />
+  </div>
+  <p
+    class="text text_type_input text_color_input mt-4 absolute index"
+  />
+  <div
+    class="text text_type_input text_color_input mt-4 absolute tail30 string"
+  >
+    TLL
+  </div>
+</div>
+`;
+
+exports[`Circle С буквой 1`] = `
+<div
+  class="content "
+  data-testid="circle"
+>
+  <div
+    class="text text_type_input text_color_input mb-4 absolute head element"
+  />
+  <div
+    class="circle   default"
+  >
+    <p
+      class="text text_type_circle text_color_input letter"
+      data-testid="circle_value"
+    >
+      BFG
+    </p>
+  </div>
+  <p
+    class="text text_type_input text_color_input mt-4 absolute index"
+  />
+  <div
+    class="text text_type_input text_color_input mt-4 absolute tail30 element"
+  />
+</div>
+`;
+
+exports[`Circle С пропом isSmall===true 1`] = `
+<div
+  class="content "
+  data-testid="circle"
+>
+  <div
+    class="text text_type_input text_color_input mb-4 absolute head element"
+  />
+  <div
+    class="circle  small default"
+  >
+    <p
+      class="text text_type_circle text_color_input letter"
+      data-testid="circle_value"
+    />
+  </div>
+  <p
+    class="text text_type_input text_color_input mt-4 absolute index"
+  />
+  <div
+    class="text text_type_input text_color_input mt-4 absolute tail30 element"
+  />
+</div>
+`;

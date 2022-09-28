@@ -9,8 +9,8 @@ import { ASC, DESC, TSortKind } from "./types";
  */
 export const selectionSort = async <T = string>(
     arr: T[],
-    handleCurrents: (indexes: number[]) => Promise<void>,
-    handleModified: (index: number) => Promise<void>,
+    handleCurrents: (indexes: number[]) => Promise<void> | null = ([]) => null,
+    handleModified: (index: number) => Promise<void> | null = (n) => null,
     sortType: TSortKind = ASC
 ) => {
 
@@ -28,6 +28,8 @@ export const selectionSort = async <T = string>(
         }
         await handleModified(i);
     }
+
+    return arr;
 };
 
 /**
@@ -39,8 +41,8 @@ export const selectionSort = async <T = string>(
  */
 export const bubbleSort = async <T = string>(
     arr: T[],
-    handleCurrents: (indexes: number[]) => Promise<void>,
-    handleModified: (index: number) => Promise<void>,
+    handleCurrents: (indexes: number[]) => Promise<void> | null = ([])=>null,
+    handleModified: (index: number) => Promise<void> | null = ()=>null,
     sortType: TSortKind = ASC
 ) => {
 
@@ -50,12 +52,14 @@ export const bubbleSort = async <T = string>(
 
         for (let j = 0; j < (length - i - 1); j++) {
 
-            await handleCurrents([j, j+1]);
+            await handleCurrents([j, j + 1]);
 
-            if ((sortType==="ASC" && arr[j] > arr[j + 1]) || (sortType==="DESC" && arr[j] < arr[j + 1])) {
-                [arr[j], arr[j+1]] = [arr[j+1], arr[j]];
+            if ((sortType === "ASC" && arr[j] > arr[j + 1]) || (sortType === "DESC" && arr[j] < arr[j + 1])) {
+                [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
             }
         }
-        await handleModified(length - i -1 );
+        await handleModified(length - i - 1);
     }
+
+    return arr;
 }
